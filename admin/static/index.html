@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>Main Page</title>
+    </head>
+    <style>
+        body {
+            background-color: darkcyan;
+        }
+    </style>
+    <script>
+        window.onload = (e) => {
+            let myframe = document.getElementById("myframe")
+            myframe.src = "http://localhost:3000"
+        }
+
+        function enviarMensagem() {
+            let myframe = document.getElementById("myframe")
+            let msg = document.getElementById("mensagem")
+            console.log("Enviando mensagem")
+            myframe.contentWindow.postMessage({
+                event_type: "message",
+                content: msg.value
+            }, "http://localhost:3000")
+        }
+
+        window.onmessage = (e) => {
+            if (e.data == "hello") {
+                let msg = document.getElementById("mensagem")
+                msg.innerText = "Recebeu mensagem do iframe"
+            }
+        }
+    </script>
+<body>
+    Esta é a página principal!
+<textarea id="mensagem"></textarea>
+        <button id="send_message" onclick="enviarMensagem()">
+            Enviar mensagem
+        </button>
+
+        <iframe id="myframe"></p>
+</body>
+</html>
