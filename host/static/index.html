@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Main Page</title>
+</head>
+
+<body>
+  <div style="width: 350px; height: 150px;">
+    <p>This is the main page!</p>
+    <textarea id="input"></textarea>
+    <button id="send_message">Send message</button>
+    <p id="message">Message:</p>
+  </div>
+  <iframe id="my_frame" src="http://localhost:3001" width="350px" height="150px"></iframe>
+
+  <script>
+    document.getElementById("send_message").addEventListener("click", () => {
+      document.getElementById("my_frame").contentWindow.postMessage(
+        document.getElementById("input").value,
+        "http://localhost:3001"
+      )
+    })
+
+    window.addEventListener("message", (e) => {
+      if (e.origin !== "http://localhost:3001") return
+
+      document.getElementById("message").innerText = `Message: ${e.data}`
+    })
+  </script>
+</body>
+
+</html>
